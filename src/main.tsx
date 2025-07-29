@@ -9,8 +9,8 @@ if (!rootElement) throw new Error('Failed to find the root element')
 
 ReactDOM.createRoot(rootElement).render(
   <Router>
-    <React.StrictMode>
+   
       <App />
-    </React.StrictMode>
+   
   </Router>
 )

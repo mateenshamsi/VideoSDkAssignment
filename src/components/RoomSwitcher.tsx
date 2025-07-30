@@ -1,4 +1,4 @@
-// src/components/RoomSwitcher.tsx
+
 import { useState } from "react";
 import { useMeeting } from "@videosdk.live/react-sdk";
 import { createMeeting, authToken } from "../Api";
@@ -27,7 +27,7 @@ export default function RoomSwitcher() {
 
     setMeetingHistory((prev) => {
       const updated = [newRoom, ...prev.filter((room) => room.id !== meetingId)];
-      return updated.slice(0, 10); // Limit to last 10 rooms
+      return updated.slice(0, 10);
     });
   };
 
@@ -72,12 +72,12 @@ export default function RoomSwitcher() {
 
       addToHistory(newMeetingId, newRoomName);
 
-      await new Promise((resolve) => setTimeout(resolve, 500)); // wait for stability
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       await meeting.switchTo({
         meetingId: newMeetingId,
         token: authToken,
-        name: meeting.localParticipant?.displayName || "Guest", // 👈 FIXED
+        name: meeting.localParticipant?.displayName || "Guest", 
       });
       toast.success(`Switched to room: ${newMeetingId}`);
 
@@ -98,7 +98,7 @@ export default function RoomSwitcher() {
     <div className="mt-4 p-4 border border-[#ccc] rounded-lg">
       <h4>🔄 Switch Room</h4>
 
-      {/* Manual Room Switch */}
+     
       <div className="mb-4">
         <h5>Join Existing Room:</h5>
         <input

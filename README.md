@@ -5,6 +5,11 @@
 </p>
 
 ---
+### Video of project 
+[![Watch the demo]](https://www.loom.com/share/a163ca53e678470d96b248b758fc8a83)
+
+👉 [Click to watch on Loom](https://www.loom.com/share/a163ca53e678470d96b248b758fc8a83)
+
 
 ##  Project Setup
 

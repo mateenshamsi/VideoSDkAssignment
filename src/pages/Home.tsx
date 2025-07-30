@@ -10,7 +10,6 @@ export default function HomePage() {
   const handleJoinMeeting = () => {
     if (meetingId.trim() && userName.trim()) {
       console.log("Joining meeting:", meetingId, "as", userName);
-      // Navigate to the meeting room with the meeting ID and user name
       navigate(`/room/${meetingId}?name=${encodeURIComponent(userName)}`);
     }
   };
@@ -49,10 +48,10 @@ const handleCreateMeeting = async () => {
           <p className="text-gray-300">Connect with people around the world</p>
         </div>
 
-        {/* Meeting Form */}
+        
         <div className="max-w-md mx-auto space-y-6">
           
-          {/* Name Input */}
+         
           <div>
             <label className="block text-sm font-medium mb-2">Your Name</label>
             <input
@@ -64,7 +63,7 @@ const handleCreateMeeting = async () => {
             />
           </div>
 
-          {/* Join Meeting */}
+         
           <div className="bg-gray-800 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-4">Join Meeting</h3>
             <input
@@ -83,7 +82,6 @@ const handleCreateMeeting = async () => {
             </button>
           </div>
 
-          {/* Create Meeting */}
           <div className="bg-gray-800 p-6 rounded-lg">
             <h3 className="text-lg font-semibold mb-4">Start New Meeting</h3>
             <button

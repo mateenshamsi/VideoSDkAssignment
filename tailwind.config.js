@@ -7,5 +7,5 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [],  // Empty array - no plugins
+  plugins: [], 
 }

@@ -26,7 +26,7 @@ export default function MeetingView({
         <>
           <Controls
             toggleMic={toggleMic}
-            toggleCamera={toggleWebcam} // renamed for clarity
+            toggleCamera={toggleWebcam} 
             leave={leave}
           />
 

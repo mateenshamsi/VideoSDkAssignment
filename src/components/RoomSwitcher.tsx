@@ -95,7 +95,7 @@ export default function RoomSwitcher() {
   };
 
   return (
-    <div style={{ marginTop: "1rem", padding: "1rem", border: "1px solid #ccc", borderRadius: "8px" }}>
+    <div className="mt-4 p-4 border border-[#ccc] rounded-lg" >
       <h4>🔄 Switch Room</h4>
       
       {/* Manual Room Switch */}
@@ -106,7 +106,8 @@ export default function RoomSwitcher() {
           placeholder="Enter Meeting ID"
           value={targetMeetingId}
           onChange={(e) => setTargetMeetingId(e.target.value)}
-          style={{ marginRight: "0.5rem", padding: "0.3rem" }}
+       
+          className="mr-2 p-1 rounded text-black"
         />
         <button onClick={handleManualSwitch} disabled={!targetMeetingId.trim()}>
           Switch to Room
@@ -114,7 +115,7 @@ export default function RoomSwitcher() {
       </div>
 
       {/* Create New Room */}
-      <div style={{ marginBottom: "1rem" }}>
+      <div className="mb-4">
         <h5>Create New Room:</h5>
         <input
           type="text"
@@ -132,7 +133,7 @@ export default function RoomSwitcher() {
       {meetingHistory.length > 0 && (
         <div>
           <h5>📋 Recent Rooms:</h5>
-          <div style={{ maxHeight: "200px", overflowY: "auto" }}>
+          <div >
             {meetingHistory.map((room) => (
               <div 
                 key={room.id} 
@@ -144,7 +145,7 @@ export default function RoomSwitcher() {
                   margin: "0.2rem 0", 
                   border: "1px solid #eee", 
                   borderRadius: "4px",
-                  backgroundColor: meeting?.meetingId === room.id ? "#e8f5e8" : "#f9f9f9"
+                  backgroundColor: meeting?.meetingId === room.id ? "#e8f5e8" : ""
                 }}
               >
                 <div>
@@ -165,7 +166,7 @@ export default function RoomSwitcher() {
                   </button>
                   <button 
                     onClick={() => handleDeleteFromHistory(room.id)}
-                    style={{ backgroundColor: "#ff6b6b", color: "white", border: "none", padding: "0.2rem 0.5rem", borderRadius: "3px" }}
+                    style={{ backgroundColor: "#ff6b6b", color: "black", border: "none", padding: "0.2rem 0.5rem", borderRadius: "3px" }}
                   >
                     ✕
                   </button>

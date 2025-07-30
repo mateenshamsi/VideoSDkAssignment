@@ -48,7 +48,7 @@ export default function ParticipantView({ participantId }: { participantId: stri
   }, [micOn, micStream]);
 
   return (
-    <div style={{ margin: "16px", border: "1px solid #ddd", padding: "10px" }}>
+    <div  className="m-4 border border-[#ddd] p-2.5 ">
       <p>
         {displayName} | Webcam: {webcamOn ? "ON" : "OFF"} | Mic:{" "}
         {micOn ? "ON" : "OFF"}
@@ -58,7 +58,8 @@ export default function ParticipantView({ participantId }: { participantId: stri
         autoPlay
         muted={isLocal}
         playsInline
-        style={{ width: "300px", height: "200px", backgroundColor: "#000" }}
+        className="w-[300px] h-[200px] rounded-lg bg-black" 
+ 
       />
       <audio ref={micRef} autoPlay muted={isLocal} />
     </div>

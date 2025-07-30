@@ -20,7 +20,7 @@ export default function Controls({ toggleMic, toggleCamera, leave }: {
   };
 
   return (
-    <div className="mt-2.5" >
+    <div className="mt-2.5 flex items-center justify-center gap-4" >
       <button onClick={handleMicToggle}>
         {isMicOn ? <Mic /> : <MicOff />}
                </button>

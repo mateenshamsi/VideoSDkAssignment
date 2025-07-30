@@ -79,6 +79,7 @@ export default function RoomSwitcher() {
         token: authToken,
         name: meeting.localParticipant?.displayName || "Guest", // 👈 FIXED
       });
+      toast.success(`Switched to room: ${newMeetingId}`);
 
       console.log("Successfully switched to new meeting.");
       navigate(`/room/${newMeetingId}`);
@@ -134,7 +135,7 @@ export default function RoomSwitcher() {
                   <br />
                   <small>ID: {room.id} | Created: {room.createdAt}</small>
                   {meeting?.meetingId === room.id && (
-                    <small style={{ color: "green" }}> (Current)</small>
+                    <small  className="green"> (Current)</small>
                   )}
                 </div>
                 <div>

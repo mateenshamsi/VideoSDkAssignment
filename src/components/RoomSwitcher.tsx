@@ -113,14 +113,14 @@ export default function RoomSwitcher() {
         </button>
       </div>
 
-      {/* Create New Room */}
+    
       <div className="mb-4">
         <h5>Create New Room:</h5>
        
         <button className="border rounded p-2 mt-1 bg-slate-300 text-black" onClick={handleCreateAndSwitch}>Create & Switch</button>
       </div>
 
-      {/* Meeting History */}
+    
       {meetingHistory.length > 0 && (
         <div>
           <h5> Recent Rooms:</h5>

@@ -6,11 +6,11 @@
 
 ---
 ### Video of project 
-[![Watch the demo]](https://www.loom.com/share/a163ca53e678470d96b248b758fc8a83)
+
 
 👉 [Click to watch on Loom](https://www.loom.com/share/a163ca53e678470d96b248b758fc8a83)
 
-[![One more demo]](https://www.loom.com/share/a163ca53e678470d96b248b758fc8a83)
+[![One more demo]](https://www.loom.com/share/2a95b11817454e55b1b3437b882c826e?sid=5a40d843-b617-4382-9bb4-783d23467386)
 
 
 ##  Project Setup

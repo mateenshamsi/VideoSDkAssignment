@@ -1,8 +1,9 @@
 // src/components/RoomSwitcher.tsx
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useMeeting } from "@videosdk.live/react-sdk";
 import { createMeeting, authToken } from "../Api";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 interface MeetingRoom {
   id: string;
@@ -17,25 +18,16 @@ export default function RoomSwitcher() {
   const [newRoomName, setNewRoomName] = useState("");
   const navigate = useNavigate();
 
-  // Load meeting history from memory on component mount
-  useEffect(() => {
-    // You could also load from localStorage here if you want persistence
-    // const saved = localStorage.getItem('meetingHistory');
-    // if (saved) setMeetingHistory(JSON.parse(saved));
-  }, []);
-
   const addToHistory = (meetingId: string, name: string) => {
     const newRoom: MeetingRoom = {
       id: meetingId,
       name: name || `Room ${meetingId.slice(-6)}`,
-      createdAt: new Date().toLocaleTimeString()
+      createdAt: new Date().toLocaleTimeString(),
     };
-    
-    setMeetingHistory(prev => {
-      const updated = [newRoom, ...prev.filter(room => room.id !== meetingId)];
-      // Optional: Save to localStorage for persistence
-      // localStorage.setItem('meetingHistory', JSON.stringify(updated));
-      return updated.slice(0, 10); // Keep only last 10 rooms
+
+    setMeetingHistory((prev) => {
+      const updated = [newRoom, ...prev.filter((room) => room.id !== meetingId)];
+      return updated.slice(0, 10); // Limit to last 10 rooms
     });
   };
 
@@ -47,10 +39,15 @@ export default function RoomSwitcher() {
       }
 
       console.log("Attempting to switch to:", meetingId);
-      
-      await meeting.switchTo({ meetingId, token: authToken });
-      console.log("Successfully switched to:", meetingId);
 
+      await meeting.switchTo({
+        meetingId,
+        token: authToken,
+        name: meeting.localParticipant?.displayName || "Guest", 
+      });
+
+      console.log("Successfully switched to:", meetingId);
+      toast.success(`Switched to room: ${meetingId}`);
       navigate(`/room/${meetingId}`);
     } catch (error: any) {
       console.error("Room switch failed:", error.message);
@@ -73,17 +70,19 @@ export default function RoomSwitcher() {
       const newMeetingId = await createMeeting({ token: authToken });
       console.log("New meeting created:", newMeetingId);
 
-      // Add to history before switching
       addToHistory(newMeetingId, newRoomName);
 
-      // Small delay to ensure meeting is active
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500)); // wait for stability
 
-      await meeting.switchTo({ meetingId: newMeetingId, token: authToken });
+      await meeting.switchTo({
+        meetingId: newMeetingId,
+        token: authToken,
+        name: meeting.localParticipant?.displayName || "Guest", // 👈 FIXED
+      });
+
       console.log("Successfully switched to new meeting.");
-
       navigate(`/room/${newMeetingId}`);
-      setNewRoomName(""); // Clear the input
+      setNewRoomName("");
     } catch (error: any) {
       console.error("Create & switch failed:", error.message);
       alert(`Failed to create room: ${error.message}`);
@@ -91,25 +90,24 @@ export default function RoomSwitcher() {
   };
 
   const handleDeleteFromHistory = (meetingId: string) => {
-    setMeetingHistory(prev => prev.filter(room => room.id !== meetingId));
+    setMeetingHistory((prev) => prev.filter((room) => room.id !== meetingId));
   };
 
   return (
-    <div className="mt-4 p-4 border border-[#ccc] rounded-lg" >
+    <div className="mt-4 p-4 border border-[#ccc] rounded-lg">
       <h4>🔄 Switch Room</h4>
-      
+
       {/* Manual Room Switch */}
-      <div style={{ marginBottom: "1rem" }}>
+      <div className="mb-4">
         <h5>Join Existing Room:</h5>
         <input
           type="text"
           placeholder="Enter Meeting ID"
           value={targetMeetingId}
           onChange={(e) => setTargetMeetingId(e.target.value)}
-       
           className="mr-2 p-1 rounded text-black"
         />
-        <button onClick={handleManualSwitch} disabled={!targetMeetingId.trim()}>
+        <button className="border rounded-lg p-2 mt-1 bg-slate-300 text-black" onClick={handleManualSwitch} disabled={!targetMeetingId.trim()}>
           Switch to Room
         </button>
       </div>
@@ -117,36 +115,19 @@ export default function RoomSwitcher() {
       {/* Create New Room */}
       <div className="mb-4">
         <h5>Create New Room:</h5>
-        <input
-          type="text"
-          placeholder="Room name (optional)"
-          value={newRoomName}
-          onChange={(e) => setNewRoomName(e.target.value)}
-          style={{ marginRight: "0.5rem", padding: "0.3rem" }}
-        />
-        <button onClick={handleCreateAndSwitch}>
-          Create & Switch
-        </button>
+       
+        <button className="border rounded p-2 mt-1 bg-slate-300 text-black" onClick={handleCreateAndSwitch}>Create & Switch</button>
       </div>
 
       {/* Meeting History */}
       {meetingHistory.length > 0 && (
         <div>
-          <h5>📋 Recent Rooms:</h5>
-          <div >
+          <h5> Recent Rooms:</h5>
+          <div>
             {meetingHistory.map((room) => (
-              <div 
-                key={room.id} 
-                style={{ 
-                  display: "flex", 
-                  justifyContent: "space-between", 
-                  alignItems: "center",
-                  padding: "0.5rem", 
-                  margin: "0.2rem 0", 
-                  border: "1px solid #eee", 
-                  borderRadius: "4px",
-                  backgroundColor: meeting?.meetingId === room.id ? "#e8f5e8" : ""
-                }}
+              <div
+                key={room.id}
+                className={`flex justify-between items-center p-2 mb-2 rounded`}
               >
                 <div>
                   <strong>{room.name}</strong>
@@ -157,16 +138,16 @@ export default function RoomSwitcher() {
                   )}
                 </div>
                 <div>
-                  <button 
+                  <button
                     onClick={() => handleSwitch(room.id)}
                     disabled={meeting?.meetingId === room.id}
-                    style={{ marginRight: "0.5rem" }}
+                    className="mr-2"
                   >
                     {meeting?.meetingId === room.id ? "Current" : "Switch"}
                   </button>
-                  <button 
+                  <button
                     onClick={() => handleDeleteFromHistory(room.id)}
-                    style={{ backgroundColor: "#ff6b6b", color: "black", border: "none", padding: "0.2rem 0.5rem", borderRadius: "3px" }}
+                    className="bg-red-400 text-black px-2 py-1 rounded"
                   >
                     ✕
                   </button>
